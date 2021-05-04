@@ -28,9 +28,6 @@ REMOVE_FEATURES = [
     'state_id', 'store_id',
     'cat_id', 'date', 'wm_yr_wk']
 
-# PARAMS
-
-
 
 def get_train_by_cat_store(store, cat):
     df = pd.read_pickle(TRAIN_DATA_DIR)
