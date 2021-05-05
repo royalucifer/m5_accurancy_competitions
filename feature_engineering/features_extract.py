@@ -28,7 +28,7 @@ def add_validation(data, end_train):
         temp_df = temp_df.drop_duplicates()
         temp_df['d'] = 'd_'+ str(end_train + i)
         temp_df['sales'] = np.nan
-        test_df = pd.concat([add_grid, temp_df])
+        test_df = pd.concat([test_df, temp_df])
 
     df = pd.concat([df, test_df])
     df.reset_index(drop=True, inplace=True)
