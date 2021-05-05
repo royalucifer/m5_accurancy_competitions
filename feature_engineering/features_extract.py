@@ -154,5 +154,5 @@ def transform_category_features(data):
 
     for column in category_cols:
         encoder = LabelEncoder()
-        data[column] = encoder.fit_transform(data[feature]).astype('int16')
+        data[column] = encoder.fit_transform(data[column]).astype('int16')
     return data
