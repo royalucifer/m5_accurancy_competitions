@@ -1,9 +1,8 @@
-import os, random
+import os
 
 import numpy as np
 import pandas as pd
 import lightgbm as lgb
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
 SEED = 9568

@@ -1,9 +1,7 @@
-import os, pickle
-from math import ceil
+import os
 
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
 
 import features_extract as fe
 

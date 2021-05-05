@@ -1,4 +1,4 @@
-import os, pickle
+import os
 from math import ceil
 
 import numpy as np
