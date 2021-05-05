@@ -10,7 +10,7 @@ MAIN_INDEX = ['id','d']
 TRAIN_DATA_DIR = '~/M5/train_df.pkl'
 
 
-def main():
+def main(sales_df, prices_df, calendar_df):
     # basic process
     main_df = fe.add_validation(sales_df, END_TRAIN)
     main_df = fe.del_unlist_product_sales(main_df, price_df)
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     prices_df = pd.read_csv('~/M5/sell_prices.csv')
     calendar_df = pd.read_csv('~/M5/calendar.csv')
 
-    prices_df['cat_id'] = prices_df['item_id'].apply(extract_cat_dept_id, type='cat')
-    prices_df['dept_id'] = prices_df['item_id'].apply(extract_cat_dept_id, type='dept')
+    prices_df['cat_id'] = prices_df['item_id'].apply(fe.extract_cat_dept_id, type='cat')
+    prices_df['dept_id'] = prices_df['item_id'].apply(fe.extract_cat_dept_id, type='dept')
 
-    main()
+    main(sales_df, prices_df, calendar_df)

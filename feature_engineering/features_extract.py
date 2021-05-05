@@ -27,7 +27,7 @@ def add_validation(data, end_train):
         temp_df = df[index_columns]
         temp_df = temp_df.drop_duplicates()
         temp_df['d'] = 'd_'+ str(end_train + i)
-        temp_df[LABELS] = np.nan
+        temp_df['sales'] = np.nan
         test_df = pd.concat([add_grid, temp_df])
 
     df = pd.concat([df, test_df])
@@ -135,9 +135,9 @@ def extract_sales_features(data):
     main_sales_df['sales_lag_month'] = main_sales_df.groupby(['id'])['sales'].transform(lambda x: x.shift(28))
     for group_column in groups:
         column = '_'.join(group_column)
-        main_sales_df[column + '_lag_mean'] = main_sales_df.groupby(group_column)[LABELS].transform('mean')
+        main_sales_df[column + '_lag_mean'] = main_sales_df.groupby(group_column)['sales'].transform('mean')
         main_sales_df[column + '_lag_mean'].astype(np.float16, inplace=True)
-        main_sales_df[column + '_lag_std'] = main_sales_df.groupby(group_column)[LABELS].transform('std')
+        main_sales_df[column + '_lag_std'] = main_sales_df.groupby(group_column)['sales'].transform('std')
         main_sales_df[column + '_lag_std'].astype(np.float16, inplace=True)
 
     # convert data type
