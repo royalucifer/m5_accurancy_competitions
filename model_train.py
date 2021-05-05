@@ -64,7 +64,7 @@ def train(lgb_params):
             total_df, features = get_train_by_cat_store(store, cat)
 
             train_mask = total_df['d'] <= END_TRAIN
-            lgb_valid_mask = grid_df['d'] > (END_TRAIN - HORIZON)
+            lgb_valid_mask = total_df['d'] > (END_TRAIN - HORIZON)
 
             train = total_df[train_mask].dropna()
             valid = total_df[lgb_valid_mask].dropna()
@@ -124,7 +124,7 @@ if __name__ == '__main__':
         'learning_rate': 0.05,
         'feature_fraction': 0.5,
         'max_bin': 255,
-        'num_iterations': 1000,
+        'num_iterations': 3,
         'verbose': -1,
         'seed': SEED}
     
