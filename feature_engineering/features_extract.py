@@ -55,7 +55,7 @@ def del_unlist_product_sales(data, price_data, calendar_data):
     return df
 
 
-def extract_prices_features(data, prices_data)
+def extract_prices_features(data, prices_data):
     # basic stats
     prices_df['price_max'] = prices_df.groupby(['store_id', 'item_id'])['sell_price'].transform('max')
     prices_df['price_min'] = prices_df.groupby(['store_id', 'item_id'])['sell_price'].transform('min')
