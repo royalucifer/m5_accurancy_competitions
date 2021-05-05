@@ -54,7 +54,7 @@ def get_validation_y_by_cat_store(store, cat):
     return df['sales'].values
 
 
-def train(lgb_params)
+def train(lgb_params):
     valid_y_list = []
     valid_y_hat_list = []
     tmp_result_df = []
