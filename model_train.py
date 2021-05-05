@@ -85,7 +85,7 @@ def train(lgb_params):
             validation_mask = total_df['d'] > END_TRAIN
             validation_X = total_df[validation_mask][features]
             validation_y = get_validation_y_by_cat_store(store, cat)
-            validation_y_hat = estimator.predict(test_X)
+            validation_y_hat = estimator.predict(validation_X)
 
             temp_validation_df = pd.DataFrame({
                 'id': total_df[validation_mask]['id'],
@@ -111,7 +111,7 @@ def train(lgb_params):
             pickle.dump(estimator, open(model_name, 'wb'))
 
     pred_df = pd.concat(tmp_result_df).reset_index(drop=True)
-    return valid_y, valid_y_hat, pred_df
+    return valid_y_list, valid_y_hat_list, pred_df
 
 
 if __name__ == '__main__':
@@ -135,5 +135,5 @@ if __name__ == '__main__':
 
     cols = ['id'] + ['F' + str(i) for i in range(1, 29)]
     submission = pd.read_csv('~/M5/sample_submission.csv')[['id']]
-    submission = submission.merge(result_df, on='id', how='left')[cols]
+    submission = submission.merge(pred_df, on='id', how='left')[cols]
     submission.to_csv('submission.csv', index=False)
