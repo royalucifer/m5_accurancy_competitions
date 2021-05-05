@@ -6,7 +6,6 @@ import pandas as pd
 import features_extract as fe
 
 END_TRAIN = 1913
-MAIN_INDEX = ['id','d']
 TRAIN_DATA_DIR = '~/M5/train_df.pkl'
 
 

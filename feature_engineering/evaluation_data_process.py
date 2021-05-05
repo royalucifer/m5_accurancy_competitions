@@ -7,7 +7,6 @@ import features_extract as fe
 
 END_TRAIN = 1913
 END_VALIDATION = 1941
-MAIN_INDEX = ['id','d']
 TRAIN_DATA_DIR = '~/M5/train_eval_df.pkl'
 EVALUTION_DATA_DIR = '~/M5/evaluation_df.pkl'
 VALIDATION_Y_DIR = '~/M5/validation_y_df.pkl'

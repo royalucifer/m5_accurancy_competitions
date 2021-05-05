@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
+MAIN_INDEX = ['id','d']
+
 
 def extract_cat_dept_id(value, type='cat'):
     split_str = value.split('_')
@@ -103,7 +105,7 @@ def extract_datetime_features(data, calendar_data):
     main_cal_df['date'] = pd.to_datetime(main_cal_df['date'])
     for column in feature_cols[2:]:
         if column in nan_cols:
-            main_cal_df[column].fillna('unknown', inplace = True)
+            main_cal_df[column].fillna('unknown', inplace=True)
         main_cal_df[column] = main_cal_df[column].astype('category')
 
     # datetime features
@@ -135,10 +137,8 @@ def extract_sales_features(data):
     main_sales_df['sales_lag_month'] = main_sales_df.groupby(['id'])['sales'].transform(lambda x: x.shift(28))
     for group_column in groups:
         column = '_'.join(group_column)
-        main_sales_df[column + '_lag_mean'] = main_sales_df.groupby(group_column)['sales'].transform('mean')
-        main_sales_df[column + '_lag_mean'].astype(np.float16, inplace=True)
-        main_sales_df[column + '_lag_std'] = main_sales_df.groupby(group_column)['sales'].transform('std')
-        main_sales_df[column + '_lag_std'].astype(np.float16, inplace=True)
+        main_sales_df[column + '_lag_mean'] = main_sales_df.groupby(group_column)['sales'].transform('mean').astype(np.float16)
+        main_sales_df[column + '_lag_std'] = main_sales_df.groupby(group_column)['sales'].transform('std').astype(np.float16)
 
     # convert data type
     main_sales_df['d'] = main_sales_df['d'].apply(lambda x: x[2:]).astype(np.int16)
