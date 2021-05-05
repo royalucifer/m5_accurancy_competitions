@@ -124,7 +124,7 @@ if __name__ == '__main__':
         'learning_rate': 0.05,
         'feature_fraction': 0.5,
         'max_bin': 255,
-        'num_iterations': 3,
+        'num_iterations': 1000,
         'verbose': -1,
         'seed': SEED}
     
