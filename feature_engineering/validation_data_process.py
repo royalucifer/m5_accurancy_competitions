@@ -17,7 +17,7 @@ def main(sales_df, prices_df, calendar_df):
     del sales_df
 
     # extract feature
-    main_prices_df = fe.extract_prices_features(main_df, prices_df)
+    main_prices_df = fe.extract_prices_features(main_df, prices_df, calendar_df)
     main_calendar_df = fe.extract_datetime_features(main_df, calendar_df)
     main_sales_df = fe.extract_sales_features(main_df)
     del main_df, calendar_df, prices_df

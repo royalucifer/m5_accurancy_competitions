@@ -55,7 +55,7 @@ def del_unlist_product_sales(data, price_data, calendar_data):
     return df
 
 
-def extract_prices_features(data, prices_data):
+def extract_prices_features(data, prices_data, calendar_data):
     # basic stats
     prices_data['price_max'] = prices_data.groupby(['store_id', 'item_id'])['sell_price'].transform('max')
     prices_data['price_min'] = prices_data.groupby(['store_id', 'item_id'])['sell_price'].transform('min')
@@ -69,7 +69,7 @@ def extract_prices_features(data, prices_data):
     prices_data['cross_same_price_item_nunique'] = prices_data.groupby(['store_id', 'wm_yr_wk', 'cat_id', 'sell_price'])['item_id'].transform('nunique').astype('int16')
 
     # merge calendar_df in order to aggregate by datetime
-    calendar_ymw = calendar_df[['wm_yr_wk', 'month', 'year']]
+    calendar_ymw = calendar_data[['wm_yr_wk', 'month', 'year']]
     calendar_ymw = calendar_ymw.drop_duplicates(subset=['wm_yr_wk'])
     prices_data = prices_data.merge(calendar_ymw[['wm_yr_wk','month','year']], on=['wm_yr_wk'], how='left')
     del calendar_ymw
