@@ -23,11 +23,11 @@ def add_validation(data, end_train):
         var_name='d', value_name='sales')
 
     test_df = pd.DataFrame()
+    temp_df = df[index_columns]
+    temp_df = temp_df.drop_duplicates()
+    temp_df['sales'] = np.nan
     for i in range(1,29):
-        temp_df = df[index_columns]
-        temp_df = temp_df.drop_duplicates()
         temp_df['d'] = 'd_'+ str(end_train + i)
-        temp_df['sales'] = np.nan
         test_df = pd.concat([test_df, temp_df])
 
     df = pd.concat([df, test_df])

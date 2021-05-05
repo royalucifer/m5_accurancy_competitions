@@ -13,7 +13,7 @@ TRAIN_DATA_DIR = '~/M5/train_df.pkl'
 def main(sales_df, prices_df, calendar_df):
     # basic process
     main_df = fe.add_validation(sales_df, END_TRAIN)
-    main_df = fe.del_unlist_product_sales(main_df, price_df)
+    main_df = fe.del_unlist_product_sales(main_df, prices_df)
     del sales_df
 
     # extract feature
