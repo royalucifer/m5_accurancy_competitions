@@ -57,33 +57,33 @@ def del_unlist_product_sales(data, price_data, calendar_data):
 
 def extract_prices_features(data, prices_data):
     # basic stats
-    prices_df['price_max'] = prices_df.groupby(['store_id', 'item_id'])['sell_price'].transform('max')
-    prices_df['price_min'] = prices_df.groupby(['store_id', 'item_id'])['sell_price'].transform('min')
-    prices_df['price_std'] = prices_df.groupby(['store_id', 'item_id'])['sell_price'].transform('std')
-    prices_df['price_mean'] = prices_df.groupby(['store_id', 'item_id'])['sell_price'].transform('mean')
-    prices_df['price_norm'] = prices_df['sell_price'] / prices_df['price_max']
+    prices_data['price_max'] = prices_data.groupby(['store_id', 'item_id'])['sell_price'].transform('max')
+    prices_data['price_min'] = prices_data.groupby(['store_id', 'item_id'])['sell_price'].transform('min')
+    prices_data['price_std'] = prices_data.groupby(['store_id', 'item_id'])['sell_price'].transform('std')
+    prices_data['price_mean'] = prices_data.groupby(['store_id', 'item_id'])['sell_price'].transform('mean')
+    prices_data['price_norm'] = prices_data['sell_price'] / prices_data['price_max']
 
     # 同時間點同部門產品價格變異 / 同時間點同部門產品數量 / 同時間點同部門產品價格相同的數量(替代品)
-    prices_df['cross_price_std'] = prices_df.groupby(['store_id', 'wm_yr_wk', 'cat_id'])['sell_price'].transform('std')
-    prices_df['cross_item_nunique'] = prices_df.groupby(['store_id', 'wm_yr_wk', 'cat_id'])['item_id'].transform('nunique').astype('int16')
-    prices_df['cross_same_price_item_nunique'] = prices_df.groupby(['store_id', 'wm_yr_wk', 'cat_id', 'sell_price'])['item_id'].transform('nunique').astype('int16')
+    prices_data['cross_price_std'] = prices_data.groupby(['store_id', 'wm_yr_wk', 'cat_id'])['sell_price'].transform('std')
+    prices_data['cross_item_nunique'] = prices_data.groupby(['store_id', 'wm_yr_wk', 'cat_id'])['item_id'].transform('nunique').astype('int16')
+    prices_data['cross_same_price_item_nunique'] = prices_data.groupby(['store_id', 'wm_yr_wk', 'cat_id', 'sell_price'])['item_id'].transform('nunique').astype('int16')
 
     # merge calendar_df in order to aggregate by datetime
     calendar_ymw = calendar_df[['wm_yr_wk', 'month', 'year']]
     calendar_ymw = calendar_ymw.drop_duplicates(subset=['wm_yr_wk'])
-    prices_df = prices_df.merge(calendar_ymw[['wm_yr_wk','month','year']], on=['wm_yr_wk'], how='left')
+    prices_data = prices_data.merge(calendar_ymw[['wm_yr_wk','month','year']], on=['wm_yr_wk'], how='left')
     del calendar_ymw
 
     # relative price
-    prices_df['price_momentum_w'] = prices_df['sell_price'] / prices_df.groupby(['store_id', 'item_id'])['sell_price'].transform(lambda x: x.shift(1))
-    prices_df['price_momentum_m'] = prices_df['sell_price'] / prices_df.groupby(['store_id', 'item_id', 'month'])['sell_price'].transform('mean')
-    prices_df['price_momentum_y'] = prices_df['sell_price'] / prices_df.groupby(['store_id', 'item_id', 'month'])['sell_price'].transform('mean')
-    prices_df['cross_rel_price'] = prices_df['sell_price'] / prices_df.groupby(['store_id', 'cat_id'])['sell_price'].transform('mean')
+    prices_data['price_momentum_w'] = prices_data['sell_price'] / prices_data.groupby(['store_id', 'item_id'])['sell_price'].transform(lambda x: x.shift(1))
+    prices_data['price_momentum_m'] = prices_data['sell_price'] / prices_data.groupby(['store_id', 'item_id', 'month'])['sell_price'].transform('mean')
+    prices_data['price_momentum_y'] = prices_data['sell_price'] / prices_data.groupby(['store_id', 'item_id', 'month'])['sell_price'].transform('mean')
+    prices_data['cross_rel_price'] = prices_data['sell_price'] / prices_data.groupby(['store_id', 'cat_id'])['sell_price'].transform('mean')
 
-    del prices_df['month'], prices_df['year'], prices_df['cat_id'], prices_df['dept_id']
+    del prices_data['month'], prices_data['year'], prices_data['cat_id'], prices_data['dept_id']
 
     # Merge Prices
-    main_price_df = data.merge(prices_df, on=['store_id','item_id','wm_yr_wk'], how='left')
+    main_price_df = data.merge(prices_data, on=['store_id','item_id','wm_yr_wk'], how='left')
     keep_columns = [col for col in list(main_price_df) if col not in list(data)]
     return main_price_df[MAIN_INDEX + keep_columns]
 

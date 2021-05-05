@@ -16,7 +16,7 @@ VALIDATION_Y_DIR = '~/M5/validation_y_df.pkl'
 def main(sales_df, prices_df, calendar_df):
     # basic process
     main_df = fe.add_validation(sales_df, END_VALIDATION)
-    main_df = fe.del_unlist_product_sales(main_df, prices_df)
+    main_df = fe.del_unlist_product_sales(main_df, prices_df, calendar_df)
     del sales_df
 
     # extract feature
